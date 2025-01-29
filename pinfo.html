@@ -1,0 +1,171 @@
+<style>
+  /* Add some basic styling to make the form look better */
+  form {
+    width: 50%;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  input[type="text"], input[type="date"], select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+  }
+  input[type="radio"] {
+    margin-right: 10px;
+  }
+  div{
+    display: block;
+    margin-bottom: 10px;
+    border: 1px solid  rgb(201, 195, 195);
+  
+  }
+  #symptom-list {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
+  #symptom-list div {
+    margin-bottom: 10px;
+  }
+
+  button[type="submit"], button[type="button"] {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      cursor: pointer;
+    }
+    button[type="submit"]:hover, button[type="button"]:hover {
+      background-color: #3e8e41;
+    }
+</style>
+
+<form id="patient-info" action="pat_info.php" method="post" onsubmit="return validateSymptoms()">
+  <h2>Patient Information</h2>
+  
+  <!-- Patient Name -->
+  <label for="patient-name">Patient Name:</label>
+  <input type="text" id="Pname" name="Pname" required><br><br>
+  
+  <!-- Date of Birth -->
+  <label for="dob">Date of Birth:</label>
+  <input type="date" id="DOB" name="DOB" required value="<?php echo date('Y-m-d'); ?>"><br><br>
+  
+  <!-- Age (calculated using DOB) -->
+  <label for="age">Age:</label>
+  <input type="text" id="Age" name="Age" readonly required><br><br>
+  
+  <!-- Gender (using radio buttons) -->
+  <label for="gender">Gender:    Male<input type="radio" id="male" name="Gender" value="male">Female<input type="radio" id="female" name="Gender" value="female"> Other<input type="radio" id="other" name="Gender" value="other"></label>
+  <br><br>
+  
+  <!-- Blood Group (using dropdown) -->
+ <label for="blood-group">Blood Group:</label>
+  <select id="BloodGroup" name="BloodGroup">
+    <option value="">Select Blood Group</option>
+    <option value="A+">A+</option>
+    <option value="A-">A-</option>
+    <option value="B+">B+</option>
+    <option value="B-">B-</option>
+    <option value="AB+">AB+</option>
+    <option value="AB-">AB-</option>
+    <option value="O+">O+</option>
+    <option value="O-">O-</option>
+  </select><br><br>
+
+  
+  <label for="Symptoms">Select Symptom:</label>
+  <div> 
+  <input type="checkbox" id="symptom-1" name="Symptoms[]" value="Fever">Fever
+  <br><br>
+  <input type="checkbox" id="symptom-2" name="Symptoms[]" value="Cough">Cough
+  <br><br>
+  <input type="checkbox" id="symptom-3" name="Symptoms[]" value="Headache">Headache
+  <br><br>
+  <input type="checkbox" id="symptom-4" name="Symptoms[]" value="Chest Pain">Chest Pain
+  <br><br>
+  <input type="checkbox" id="symptom-5" name="Symptoms[]" value="Shortness of Breath">Shortness of Breath
+  <br><br>
+  <input type="checkbox" id="symptom-5" name="Symptoms[]" value="Abdominal Pain">Abdominal Pain
+  <br><br>
+  <input type="checkbox" id="symptom-5" name="Symptoms[]" value="Diarrhea">Diarrhea
+  <br><br>
+  <input type="checkbox" id="symptom-5" name="Symptoms[]" value="Constipation">Constipation
+  <br><br>
+  <input type="checkbox" id="symptom-5" name="Symptoms[]" value="Rash">Rash
+  <br><br>
+  <input type="checkbox" id="symptom-5" name="Symptoms[]" value="Sore Throat">Sore Throat
+  <br><br>
+  <input type="checkbox" id="symptom-5" name="Symptoms[]" value="Nausea/Vomiting">Nausea/Vomiting
+  <br><br>
+  <input type="checkbox" id="symptom-5" name="Symptoms[]" value="Fatigue">Fatigue
+  <br><br>
+  <input type="checkbox" id="symptom-5" name="Symptoms[]" value="Joint Pain">Joint Pain
+  <br><br>
+  <input type="checkbox" id="symptom-5" name="Symptoms[]" value="Back Pain">Back Pain
+  <br><br>
+  <input type="checkbox" id="symptom-5" name="Symptoms[]" value="Dizziness">Dizziness
+  <br><br>
+</div>
+  <button type="submit" name="save4">Submit</button>
+  <button type="button" onclick="window.location.href='pinfo.html'">Back</button>
+
+
+</form>
+
+<script>
+  function calculateAge() {
+    const dobInput = document.getElementById('DOB');
+    const ageInput = document.getElementById('Age');
+    const dob = new Date(dobInput.value);
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+      age--;
+    }
+    ageInput.value = age;
+
+   
+  }
+
+  const dobInput = document.getElementById('DOB');
+  dobInput.addEventListener('change', calculateAge);
+
+  window.onload = function() {
+    calculateAge();
+  };
+
+ // Add error handling for invalid date of birth
+ if (isNaN(dob.getTime())) {
+  ageInput.value = '';
+  alert('Invalid date of birth');
+}
+  function validateSymptoms() {
+    const symptomChecks = document.getElementsByName('Symptoms[]');
+    let count = 0;
+
+    for (let i = 0; i < symptomChecks.length; i++) {
+      if (symptomChecks[i].checked) {
+        count++;
+      }
+    }
+
+    if (count > 3) {
+      alert('You can select a maximum of 3 symptoms.');
+      return false;
+    }
+
+    return true;
+  }
+</script>

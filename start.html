@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter Appearance Animation</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .letter, .image {
+            position: absolute;
+            font-size: 5rem;
+            opacity: 0;
+            animation: showHide 1s forwards;
+        }
+
+        .image {
+            font-size: 0;
+            width: 200px;
+            height: auto;
+            animation: showImage 1s forwards;
+        }
+
+        @keyframes showHide {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.5);
+            }
+        }
+
+        @keyframes showImage {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Delays for each letter */
+        .letter:nth-child(1) {
+            animation-delay: 0s;
+        }
+        .letter:nth-child(2) {
+            animation-delay: 1s;
+        }
+        .letter:nth-child(3) {
+            animation-delay: 2s;
+        }
+        .letter:nth-child(4) {
+            animation-delay: 3s;
+        }
+        .letter:nth-child(5) {
+            animation-delay: 4s;
+        }
+
+        /* Delay for the image */
+        .image {
+            animation-delay: 1s;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="letter">TeleVaidhya</div>
+        
+        <img src="logo1.jpg" alt="Description of the image" class="image">
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const totalAnimationTime = 3* 1000; // 5s for letters + 3s for image display
+            setTimeout(() => {
+                window.location.href = "index.html"; // Replace with your homepage URL
+            }, totalAnimationTime);
+        });
+    </script>
+</body>
+</html>

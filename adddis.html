@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Add Disease</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap">
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      box-shadow: 0 0 10px #84b8dc;
+      border-radius: 10px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      background-color: #84b8dc;
+      color: #fff;
+    }
+    .back-button {
+      background-color: #444;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .back-button:hover {
+      background-color: #555;
+    }
+    .form-container {
+      padding: 20px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+    }
+    .form-input:focus {
+      border-color: #aaa;
+    }
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    input[type="submit"]:hover {
+      background-color: #3e8e41;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <button onclick="location.href='dashboard.html';">Back</button>
+      <h1>Add Disease</h1>
+    </div>
+    <div class="form-container">
+      <form action="add_disease.php" method="post">
+        <div class="form-group">
+          <label class="form-label" for="disease-name">Disease Name:</label>
+          <input type="text" name="Dname" class="form-input" placeholder="Enter disease name">
+        </div>
+       
+      
+        <input type="submit" name="save" value="Add Disease">
+      </form>
+    </div>
+  </div>
+
+
+</body>
+
+</html>

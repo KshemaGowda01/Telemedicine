@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-color: #84b8dc;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #84b8dc;
+        }
+        
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 15px;
+            display: block;
+        }
+        
+        nav a:hover {
+            background-color: #777;
+        }
+        
+        .container {
+            text-align: center;
+            margin: auto;
+        }
+        
+        button {
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            background-color: #0b71ba;
+            color: #fff;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: #0b71ba;
+            color: white;
+            padding: 15px;
+            height: 100vh;
+            position: fixed;
+        }
+        
+        .sidebar h2 {
+            text-align: center;
+        }
+        
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+        
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .sidebar ul li a:hover {
+            background-color: #575757;
+        }
+        
+        .content {
+            margin-left: 300px;
+            padding: 15px;
+            
+        }
+        
+        .tab-content {
+            text-align: center;
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            nav {
+                flex-direction: column;
+            }
+        }
+        .board {
+            width: 50%;
+            margin: 4px auto;
+            padding: 50px 50px 50px 50px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: 50%;
+          }
+    </style>
+</head>
+<body>
+    
+    <div class="sidebar">
+        <h2>Admin Dashboard</h2>
+        <ul>
+            <li><a href="#patient-info">Patient Info</a></li>
+            <li><a href="#symptom-info">Symptom Info</a></li>
+            <li><a href="#disease-info">Disease Info</a></li>
+            <li><a href="#medication-info">Medication Info</a></li>
+            <li><button onclick="logout()">Logout</button></li>
+        </ul>
+    </div>
+    
+    <div class="content">
+        <div id="patient-info" class="tab-content active">
+            <h2>Patient Info</h2>
+            <div class='board'>
+                <h4>To get patient info</h4>
+                <button id="fetch-patient-info">Click Here</button>
+                <div id="patient-info-container"></div>
+            </div>
+        </div>
+           
+            
+        </div>
+        <div id="symptom-info" class="tab-content">
+            <h2>Symptom Info</h2>
+            <div class ='board'><h4>To get symptom info</h4>
+                <button onclick="location.href='symptom_info.php';">Click Here</button></div>
+                <div class ='board'><h4>To add symptom</h4>
+                    <button onclick="location.href='addsym.html';">Click Here</button></div>
+            
+        </div>
+        <div id="disease-info" class="tab-content">
+            <h2>Disease Info</h2>
+            <div class ='board'><h4>To get disease info</h4>
+                <button onclick="location.href='disease_info.php';">Click Here</button></div>
+                <div class ='board'><h4>To add disease</h4>
+                    <button onclick="location.href='adddis.html';">Click Here</button></div>
+        </div>
+        <div id="medication-info" class="tab-content">
+            <h2>Medication Info</h2>
+            <div class ='board'><h4>To get medication info</h4>
+                <button onclick="location.href='medication_info.php';">Click Here</button></div>
+                <div class ='board'><h4>To add medication</h4>
+                    <button onclick="location.href='addmed.html';">Click Here</button></div>
+        </div>
+     
+    </div>
+    <script>
+        function logout() {
+          window.location.href = 'index.html';
+        }
+        window.logout = logout; // Make the function accessible from the HTML button element
+    
+      
+
+        // Script to handle tab switching
+        document.querySelectorAll('.sidebar ul li a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                const targetId = this.getAttribute('href').substring(1);
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+        document.getElementById('fetch-patient-info').addEventListener('click', function() {
+    fetch('fetch_patient_info.php')
+     .then(response => response.json())
+     .then(data => {
+            const newWindow = window.open('', '_blank'); // open a new window
+            const patientInfoContainer = newWindow.document.body; // get the container element in the new window
+            patientInfoContainer.innerHTML = '';
+            if (data.error) {
+                patientInfoContainer.textContent = data.error;
+            } else {
+                const table = document.createElement('table');
+                table.style.borderCollapse = 'collapse';
+                table.style.border = '1'; // added border style
+                table.style.width = '100%'; 
+
+                const headers = ['Patient ID', 'Patient Name', 'Date of Birth', 'Age', 'Gender', 'Blood Group', 'Symptoms'];
+                const headerRow = document.createElement('tr');
+                headers.forEach(header => {
+                    const th = document.createElement('th');
+                    th.textContent = header;
+                    th.style.border = '1px solid #ddd'; // added border style
+                    th.style.padding = '8px'; // added padding
+                    th.style.textAlign = 'left'; // added text alignment
+                    th.style.backgroundColor = '#f0f0f0'; // added background color
+                    headerRow.appendChild(th);
+                });
+                table.appendChild(headerRow);
+                data.forEach(patient => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">${patient.id}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">${patient.PName}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">${patient.DOB}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">${patient.Age}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">${patient.Gender}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">${patient.BloodGroup}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">${patient.Symptoms.replace(',', ', ')}</td>
+                    `;
+                    table.appendChild(row);
+                });
+                patientInfoContainer.appendChild(table);
+                const backButton = document.createElement('button');
+                backButton.textContent = 'Back';
+                backButton.onclick = function() {
+                    newWindow.close();
+                };
+                patientInfoContainer.appendChild(backButton);
+            }
+        })
+     .catch(error => {
+            console.error('Error fetching patient info:', error);
+        });
+});
+    
+</script>
+</body>
+</html>
